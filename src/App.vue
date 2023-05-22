@@ -48,7 +48,7 @@ const mostrarCarrinho = ref(false)
       </nav>
     </header>
 
-    <div v-if="" class="grid gap-4 grid-cols-3">
+    <div v-if="mostrarCarrinho" class="grid gap-4 grid-cols-3">
       <div class="m-5 rounded overflow-hidden shadow-lg" v-for="livro in livros" :key="livro.id">
         <p>Titulo: {{ livro.titulo }}</p>
         <p>Autor: {{ livro.autor }}</p>
