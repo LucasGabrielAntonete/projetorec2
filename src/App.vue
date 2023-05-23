@@ -24,65 +24,66 @@ function adicionarLivro(livro) {
     carrinho.value.livro.quantidade++
   }
 }
-
-const mostrarCarrinho = ref(false)
+ 
 </script>
 
 <template>
-  <div class="bg-base min-h-screen">
-    <header class="sticky top-0 bg-black shadow-lg">
-      <nav class="container flex flex-col sm:flex-row items-center gap-4 text-white py-6">
+  <header>
+    <!--Icon Hamburguer-->
+    <div class="sticky top-0 shadow-lg">
+      <div class="container flex flex-row items-center gap-4 text-black py-6">
         <div>
-          <button class="bg-white-500 hover:bg-red-500 text-white font-bold py-0 px-4 rounded-full">
-            Dark Mode
-          </button>
-        </div>
-        <div class="flex items-center gap-3 flex-1">
-          <button
-            @click="mostrarCarrinho = !mostrarCarrinho"
-            class="bg-white-500 hover:bg-red-500 text-white font-bold py-0 px-4 rounded-full"
+          
+          <svg
+          @click=""
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-6 h-6"
           >
-            Carrinho
-          </button>
-        </div>
-      </nav>
-    </header>
-
-    <div v-if="mostrarCarrinho" class="grid gap-4 grid-cols-3">
-      <div class="m-5 rounded overflow-hidden shadow-lg" v-for="livro in livros" :key="livro.id">
-        <p>Titulo: {{ livro.titulo }}</p>
-        <p>Autor: {{ livro.autor }}</p>
-        <p>Preço: R$:{{ livro.preco }}</p>
-        <p>Quantidade: {{ livro.quantidade }}</p>
-        <div>
-          <div>
-            <button
-              class="bg-blue-500 hover:bg-blue-800 text-black font-bold py-2 px-4 rounded-full"
-              @click="incrementar(ref(livro))"
-            >
-              Incrementar
-            </button>
-          </div>
-        </div>
-        <button
-          class="bg-red-500 hover:bg-red-800 text-black font-bold py-2 px-4 rounded-full"
-          @click="decrementar(ref(livro))"
-        >
-          Decrementar
-        </button>
-        <div>
-          <button
-            @click="adicionarLivro(livro)"
-            class="bg-yellow-500 hover:bg-yellow-800 text-black font-bold py-2 px-4 rounded-full"
-          >
-            Adicionar ao Carrinho
-          </button>
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+            />
+          </svg>
         </div>
       </div>
     </div>
-  </div>
+  </header>
 
-  <div v-if="mostrarCarrinho">
-    {{ carrinho }}
+  <div class="grid gap-4 grid-cols-3">
+    <div class="m-5 rounded overflow-hidden shadow-lg" v-for="livro in livros" :key="livro.id">
+      <p>Titulo: {{ livro.titulo }}</p>
+      <p>Autor: {{ livro.autor }}</p>
+      <p>Preço: R$:{{ livro.preco }}</p>
+      <p>Quantidade: {{ livro.quantidade }}</p>
+      <div>
+        <div>
+          <button
+            class="bg-blue-500 hover:bg-blue-800 text-black font-bold py-2 px-4 rounded-full"
+            @click="incrementar(ref(livro))"
+          >
+            Incrementar
+          </button>
+        </div>
+      </div>
+      <button
+        class="bg-red-500 hover:bg-red-800 text-black font-bold py-2 px-4 rounded-full"
+        @click="decrementar(ref(livro))"
+      >
+        Decrementar
+      </button>
+      <div>
+        <button
+          @click="adicionarLivro(livro)"
+          class="bg-yellow-500 hover:bg-yellow-800 text-black font-bold py-2 px-4 rounded-full"
+        >
+          Adicionar ao Carrinho
+        </button>
+      </div>
+    </div>
   </div>
 </template>
