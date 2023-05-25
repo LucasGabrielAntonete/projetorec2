@@ -64,7 +64,7 @@ const user = ref({
           @click="removerLivro(livro)"
           class="bg-red-500 hover:bg-red-800 text-black font-bold px-4 rounded-full mb-2 mr-2"
         >
-          Retirar Item
+          Retirar Itemmm
         </button>
         <hr />
       </div>
