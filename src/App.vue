@@ -16,10 +16,8 @@ function decrementar(livro) {
 
 function adicionarLivro(livro) {
   let livroCarrinho = carrinho.value.find((produto) => produto.id == livro.id)
-  if (livro.quantidade == 0) {
-    return alert("O item precisa ter uma quantidade minima de '1' para ser colocado no carrinho.")
-  } else if (livroCarrinho) {
-    livroCarrinho.quantidade = livro.quantidade
+  if (livroCarrinho) {
+    livroCarrinho.quantidade = 1
   } else {
     carrinho.value.push(livro)
     carrinho.value.livro.quantidade++
@@ -53,18 +51,33 @@ const user = ref({
 </script>
 
 <template>
-  <div class="absolute min-h-screen w-full bg-black z-10 opacity-60"  v-if="mostrarCarrinho"></div>
-  <div class="absolute left-0 min-h-screen bg-white z-40 w-1/4 shadow-lg " :class="finalizacaoCompra ? 'opacity-60' : ''" v-if="mostrarCarrinho">
-    <div class="">
-      <div v-for="livro in carrinho" :key="livro.id">
-        <p>Item: {{ livro.titulo }}</p>
-        <p>quantidade: {{ livro.quantidade }}</p>
-        <p>Preço: {{ livro.preco }}</p>
+  <div
+    class="absolute min-h-screen w-full bg-black z-10 opacity-60 overflow-hidden"
+    v-if="mostrarCarrinho"
+  ></div>
+  <div class="absolute left-0 min-h-screen bg-white z-20 w-1/4 shadow-lg" v-if="mostrarCarrinho">
+    <div class="shadow-lg" :class="finalizacaoCompra ? 'opacity-50' : ''">
+      <div class="hover:bg-purple-100" v-for="livro in carrinho" :key="livro.id">
+        <p class="ml-2">Item: {{ livro.titulo }}</p>
+        <p class="ml-2">quantidade: {{ livro.quantidade }}</p>
+        <p class="ml-2">Preço: {{ livro.preco }}</p>
         <button
           @click="removerLivro(livro)"
-          class="bg-red-500 hover:bg-red-800 text-black font-bold px-4 rounded-full mb-2 mr-2"
+          class="bg-black hover:bg-red-900 text-white font-bold px-4 rounded-full mb-2 mr-4 ml-2"
         >
-          Retirar Itemmm
+          Retirar Item
+        </button>
+        <button
+          class="absolute bg-red-500 hover:bg-red-800 text-black font-bold px-4 rounded-full mb-2 mr-2"
+          @click="decrementar(ref(livro))"
+        >
+          -
+        </button>
+        <button
+          class="absolute bg-blue-500 hover:bg-blue-800 text-black font-bold px-4 rounded-full mb-2 ml-12"
+          @click="incrementar(ref(livro))"
+        >
+          +
         </button>
         <hr />
       </div>
@@ -119,7 +132,6 @@ const user = ref({
         </div>
       </div>
     </div>
-    
   </header>
   <div class="grid gap-4 grid-cols-3 pt-20">
     <div class="m-5 rounded overflow-hidden shadow-lg" v-for="livro in livros" :key="livro.id">
@@ -128,35 +140,70 @@ const user = ref({
       <p>Preço: R$:{{ livro.preco }}</p>
       <p>Quantidade: {{ livro.quantidade }}</p>
       <div>
-        <div>
-          <button
-            class="bg-blue-500 hover:bg-blue-800 text-black font-bold py-2 px-4 rounded-full"
-            @click="incrementar(ref(livro))"
-          >
-            Incrementar
-          </button>
-        </div>
-      </div>
-      <button
-        class="bg-red-500 hover:bg-red-800 text-black font-bold py-2 px-4 rounded-full"
-        @click="decrementar(ref(livro))"
-      >
-        Decrementar
-      </button>
-      <div>
         <button
           @click="adicionarLivro(livro)"
-          class="bg-yellow-500 hover:bg-yellow-800 text-black font-bold py-2 px-4 rounded-full"
+          class="bg-yellow-500 hover:bg-yellow-800 text-black font-bold py-2 px-4 rounded-full mb-2 ml-2"
         >
           Adicionar ao Carrinho
         </button>
       </div>
     </div>
 
-    <div v-if="finalizacaoCompra" class="absolute m-auto left-0 right-0
- z-50 bg-white w-2/4 h-2/3">
+    <div
+      v-if="finalizacaoCompra"
+      class="absolute m-auto left-0 right-0 z-50 bg-purple-200 w-2/4 h-2/3"
+    >
       <div>
-        <p class="text-pink-500">AAAAAAAAAAAAA</p>
+        <form class="w-full max-w-lg">
+          <div class="flex flex-wrap -mx-3 mb-6 ml-3 mt-10">
+            <button
+              class="absolute right-0 mr-4 mt-7 bg-yellow-500 hover:bg-yellow-800 text-black font-mono py-2 px-4 rounded-full"
+              @click="finalizacaoCompra = !finalizacaoCompra"
+            >
+              Fechar Fomulario
+            </button>
+            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+              <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                Primeiro Nome
+              </label>
+              <input
+                type="text"
+                class="appearance-none block w-full bg-gray-200 text-gray-700 border border-blue-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                id="grid-first-name"
+                v-model="user.primeiro"
+                placeholder="Ex:Lucas"
+              />
+            </div>
+            <div class="w-full md:w-1/2 px-3">
+              <label
+                class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                for="grid-last-name"
+              >
+                Last Name
+              </label>
+              <input
+                class="appearance-none block w-full bg-gray-200 text-gray-700 border border-blue-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                id="grid-last-name"
+                type="text"
+                v-model="user.ultimo"
+                placeholder="Ex:Antonete"
+              />
+            </div>
+            <div class="flex flex-wrap -mx-3 mb-6">
+              <div class="w-full px-3">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 ml-3">
+                  Cartão de Crédito
+                </label>
+                <input
+                  class=" appearance-none block w-full bg-gray-200 text-gray-700 border border-blue-200 rounded py-3 px-4 ml-3 mr-14 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  type="number"
+                  v-model="user.cartao"
+                  placeholder="Numero do Cartão"
+                />
+              </div>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
   </div>
