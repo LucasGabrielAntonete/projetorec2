@@ -1,6 +1,6 @@
 <script setup>
 import { livros } from '@/_data/livros.js'
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { carrinho } from '@/_data/carrinho.js'
 import { Swal } from 'sweetalert2'
 
@@ -34,7 +34,6 @@ function removerLivro(livro) {
   livros.value[livro.id - 1].adicionado = false
 }
 
-const mostrarLoja = ref(true)
 const finalizacaoCompra = ref(false)
 const mostrarCarrinho = ref(false)
 
@@ -44,10 +43,12 @@ const user = ref({
   primeiro: '',
   segundo: '',
   cartao: '',
+  seguranca: '',
   cidade: '',
   estado: '',
   zip: ''
 })
+const enviarForm = ref(false)
 </script>
 
 <template>
@@ -163,12 +164,14 @@ const user = ref({
               Fechar Fomulario
             </button>
             <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-              <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+              <label
+                class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 ml-3"
+              >
                 Primeiro Nome
               </label>
               <input
                 type="text"
-                class="appearance-none block w-full bg-gray-200 text-gray-700 border border-blue-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                class="appearance-none block w-full bg-gray-200 text-gray-700 border border-blue-500 ml-3 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                 id="grid-first-name"
                 v-model="user.primeiro"
                 placeholder="Ex:Lucas"
@@ -189,17 +192,60 @@ const user = ref({
                 placeholder="Ex:Antonete"
               />
             </div>
-            <div class="flex flex-wrap -mx-3 mb-6">
+
+            <div class="w-full md:w-3/5 mb-6 px-3">
               <div class="w-full px-3">
-                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 ml-3">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                   Cartão de Crédito
                 </label>
                 <input
-                  class=" appearance-none block w-full bg-gray-200 text-gray-700 border border-blue-200 rounded py-3 px-4 ml-3 mr-14 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  class="appearance-none block w-full bg-gray-200 text-gray-700 border border-blue-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   type="number"
                   v-model="user.cartao"
                   placeholder="Numero do Cartão"
                 />
+              </div>
+            </div>
+            <div class="w-full md:w-2/5">
+              <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                Numero de Segurança
+              </label>
+              <input
+                type="number"
+                class="appearance-none block w-full bg-gray-200 text-gray-700 border border-blue-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
+                id="grid-first-name"
+                v-model="user.seguranca"
+                placeholder="Ex: 923"
+              />
+            </div>
+            <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0 ml-3">
+              <label
+                class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                for="grid-zip"
+              >
+                Zip
+              </label>
+              <input
+                class="appearance-none block w-full bg-gray-200 text-gray-700 border border-green-500 rounded py-3 mr-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                id="grid-zip"
+                type="text"
+                placeholder="90210"
+                v-model="user.zip"
+              />
+            </div>
+            <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+              <label
+                class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                for="grid-state"
+              >
+                Estado
+              </label>
+              <div class="relative">
+                <select
+                  class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  id="grid-state"
+                  v-model="user.estado"
+                ></select>
               </div>
             </div>
           </div>
