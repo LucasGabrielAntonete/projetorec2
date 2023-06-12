@@ -17,10 +17,10 @@ function decrementar(livro) {
 function adicionarLivro(livro) {
   let livroCarrinho = carrinho.value.find((produto) => produto.id == livro.id)
   if (livroCarrinho) {
-    livroCarrinho.quantidade = 1
+    livroCarrinho.quantidade += 1
   } else {
     carrinho.value.push(livro)
-    carrinho.value.livro.quantidade++
+    livro.quantidade++
   }
 }
 
@@ -48,7 +48,43 @@ const user = ref({
   estado: '',
   zip: ''
 })
-const enviarForm = ref(false)
+
+  let mensagemErro = false
+  let valido = true
+  
+function validacao() {
+  
+  Object.keys(user.value).forEach((classe) => {
+    if (typeof user.value[classe] === 'string') {
+      if (user.value[classe] === '' && !mensagemErro) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Seu bobinho',
+          text: 'Você esqueceu de preencher algum campo'
+        })
+        mensagemErro = true
+        valido = false
+      }
+    }
+  })
+
+  if (valido = true) {
+    Swal.fire(
+  'Good job!',
+  'You clicked the button!',
+  'success'
+)
+  }
+}
+
+function handleFileUpload(e) {
+    const target = e.target
+    if (target && target.files) {
+      const file = target.files[0]
+      user.value.avatar = URL.createObjectURL(file)
+    }
+  }
+
 </script>
 
 <template>
@@ -56,12 +92,13 @@ const enviarForm = ref(false)
     class="absolute min-h-screen w-full bg-black z-10 opacity-60 overflow-hidden"
     v-if="mostrarCarrinho"
   ></div>
-  <div class="absolute left-0 min-h-screen bg-white z-20 w-1/4 shadow-lg" v-if="mostrarCarrinho">
-    <div class="shadow-lg" :class="finalizacaoCompra ? 'opacity-50' : ''">
+  <div class="absolute left-0 min-h-screen bg-white z-10 w-1/4 shadow-lg" v-if="mostrarCarrinho">
+    <div class="shadow-lg" :class="finalizacaoCompra ? 'opacity-60' : ''">
       <div class="hover:bg-purple-100" v-for="livro in carrinho" :key="livro.id">
         <p class="ml-2">Item: {{ livro.titulo }}</p>
         <p class="ml-2">quantidade: {{ livro.quantidade }}</p>
-        <p class="ml-2">Preço: {{ livro.preco }}</p>
+        <p class="ml-2">Preço: R$:{{ livro.preco }}</p>
+        <p class="ml-2">Preço total do item: R$:{{ livro.preco * livro.quantidade }}</p>
         <button
           @click="removerLivro(livro)"
           class="bg-black hover:bg-red-900 text-white font-bold px-4 rounded-full mb-2 mr-4 ml-2"
@@ -151,12 +188,12 @@ const enviarForm = ref(false)
     </div>
 
     <div
-      class="absolute min-h-screen w-full bg-black z-20 opacity-60 overflow-hidden"
+      class="absolute min-h-screen w-full bg-black z-10 opacity-60 overflow-hidden"
       v-if="finalizacaoCompra"
-    >
+    ></div>
       <div
         v-if="finalizacaoCompra"
-        class="absolute m-auto left-0 right-0 z-30 bg-purple-200 w-2/4 h-2/3"
+        class="absolute m-auto left-0 right-0 z-40 bg-purple-200 w-2/4 h-2/3"
       >
         <div>
           <form class="w-full max-w-lg">
@@ -266,11 +303,12 @@ const enviarForm = ref(false)
                     v-model="user.cidade"
                   ></select>
                 </div>
+                <button @click="validacao()" class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded"></button>
               </div>
             </div>
           </form>
         </div>
       </div>
     </div>
-  </div>
+  
 </template>
