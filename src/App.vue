@@ -2,7 +2,7 @@
 import { livros } from '@/_data/livros.js'
 import { ref } from 'vue'
 import { carrinho } from '@/_data/carrinho.js'
-import { Swal }  from 'sweetalert2'
+import { Swal } from 'sweetalert2'
 
 function incrementar(livro) {
   livro.value.quantidade++
@@ -56,21 +56,16 @@ function validacao() {
   
   Object.keys(user.value).forEach((classe) => {
     if (typeof user.value[classe] === 'string') {
-      if (user.value[classe] === '' && !mensagemErro && !valido) {
-        Swal.fire('Voce nao preencheu algum campo!!')
+      if (user.value[classe] === '' && !mensagemErro) {
+        return alert("Voes esqueceu de preencher algum campo")
         mensagemErro = true
         valido = false
       }
     }
   })
-
   if (valido = true) {
-    Swal.fire(
-  'Good job!',
-  'You clicked the button!',
-  'success'
-)
-mensagemErro = false
+    return alert("Cadastro concluido")
+    mensagemErro = false
   }
 }
 
