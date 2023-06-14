@@ -2,7 +2,7 @@
 import { livros } from '@/_data/livros.js'
 import { ref } from 'vue'
 import { carrinho } from '@/_data/carrinho.js'
-import { Swal } from 'sweetalert2'
+import { Swal }  from 'sweetalert2'
 
 function incrementar(livro) {
   livro.value.quantidade++
@@ -49,19 +49,15 @@ const user = ref({
   zip: ''
 })
 
-  let mensagemErro = false
-  let valido = true
   
+let mensagemErro = false
+let valido = true 
 function validacao() {
   
   Object.keys(user.value).forEach((classe) => {
     if (typeof user.value[classe] === 'string') {
-      if (user.value[classe] === '' && !mensagemErro) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Seu bobinho',
-          text: 'Você esqueceu de preencher algum campo'
-        })
+      if (user.value[classe] === '' && !mensagemErro && !valido) {
+        Swal.fire('Voce nao preencheu algum campo!!')
         mensagemErro = true
         valido = false
       }
@@ -74,16 +70,10 @@ function validacao() {
   'You clicked the button!',
   'success'
 )
+mensagemErro = false
   }
 }
 
-function handleFileUpload(e) {
-    const target = e.target
-    if (target && target.files) {
-      const file = target.files[0]
-      user.value.avatar = URL.createObjectURL(file)
-    }
-  }
 
 </script>
 
@@ -303,7 +293,9 @@ function handleFileUpload(e) {
                     v-model="user.cidade"
                   ></select>
                 </div>
-                <button @click="validacao()" class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded"></button>
+                <button @click="validacao()" class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">
+                Finalizar Cadastro
+                </button>
               </div>
             </div>
           </form>

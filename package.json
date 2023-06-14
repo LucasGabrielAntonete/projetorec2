@@ -10,7 +10,7 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
-    "sweetalert2": "^11.7.5",
+    "sweetalert2": "^11.4.8",
     "vue": "^3.3.2"
   },
   "devDependencies": {
