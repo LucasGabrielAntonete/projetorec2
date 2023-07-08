@@ -1,2 +1,7 @@
 import { ref } from 'vue'
-export const carrinho = ref([])
+const carrinho = ref([])
+
+const finalizacaoCompra = ref(false)
+const mostrarCarrinho = ref(false)
+
+export {carrinho, finalizacaoCompra, mostrarCarrinho}
